@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie-Licious | Freshly Baked XXL Cookies</title>
+    <style>
+        :root {
+            --primary: #4a2c2a;
+            --accent: #d97706;
+            --bg: #fffbeb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --text-light: #4b5563;
+            --border: #e5e7eb;
+            --success: #059669;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding-bottom: 5rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #2d1615);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 6px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.25rem;
+            color: #fef3c7;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Countdown Banner */
+        .countdown-banner {
+            background-color: #fef2f2;
+            border: 2px solid #f87171;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(248, 113, 113, 0.1);
+        }
+
+        /* VIP Banner Section */
+        .vip-club {
+            background: linear-gradient(135deg, #1e1b4b, #311042);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 25px rgba(30, 27, 75, 0.25);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            border: 2px solid #b45309;
+        }
+
+        .vip-info h2 {
+            color: #fbbf24;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vip-info p {
+            color: #e0e7ff;
+            max-width: 600px;
+        }
+
+        .vip-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .vip-btn {
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            color: #1e1b4b;
+            font-weight: 800;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .vip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+
+        .vip-btn:disabled {
+            background: #4b5563;
+            color: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #e0e7ff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px dashed rgba(255,255,255,0.3);
+        }
+
+        .checkbox-container input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: #fbbf24;
+        }
+
+        /* Menu Grid */
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            border-left: 5px solid var(--accent);
+            padding-left: 0.75rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .badge-xxl {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            padding-right: 2.5rem;
+        }
+
+        .card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #9ca3af;
+            text-decoration: line-through;
+            display: none;
+        }
+
+        .vip-active .original-price {
+            display: inline;
+        }
+
+        .btn-order {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn-order:hover {
+            background-color: #2d1615;
+        }
+
+        /* Cart Area */
+        .cart-wrapper {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .cart-status {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-info h4 {
+            font-weight: 600;
+        }
+
+        .cart-item-info span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-qty {
+            background: #f3f4f6;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-qty:hover {
+            background: #e5e7eb;
+        }
+
+        .cart-totals {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grand-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .checkout-form {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        @media (max-width: 640px) {
+            .checkout-form { grid-template-columns: 1fr; }
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .btn-submit {
+            grid-column: 1 / -1;
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2);
+        }
+
+        .btn-submit:hover {
+            background: #b45309;
+        }
+
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .notice-banner {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #78350f;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cookie-Licious</h1>
+        <p>Gooey, Home-made, Massive 200g XXL Treats</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Dynamic Order Cutoff Countdown -->
+        <div class="countdown-banner" id="lockout-banner">
+            ⏳ Pre-orders for this weekend's batch close in: <span id="countdown-timer">Calculating...</span>
+        </div>
+        
+        <!-- VIP Section -->
+        <div class="vip-club" id="vip-banner">
+            <div class="vip-info">
+                <h2>👑 Join the Cookie-Licious VIP Pass Club</h2>
+                <p>Buy a VIP Pass for just <strong>£2.00</strong> upfront. Instantly unlock <strong>50p off every single cookie</strong> you buy today and in the future! Paid on Monday, signed with authentic high-sec gel pen.</p>
+            </div>
+            <div class="vip-controls">
+                <button class="vip-btn" id="buy-vip-btn" onclick="purchaseVipPass()">Buy VIP Pass (+£2.00)</button>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="existing-vip-chk" onchange="toggleExistingVip(this)">
+                    I already have a valid Gel Pen VIP Pass
+                </label>
+            </div>
+        </div>
+
+        <h2 class="section-title">Fresh Batch Menu</h2>
+        
+        <!-- Menu Grid -->
+        <div class="grid" id="menu-container"></div>
+
+        <!-- Checkout Card -->
+        <h2 class="section-title">Your Secret Pre-Order</h2>
+        <div class="cart-wrapper">
+            <div class="cart-status" id="vip-status-msg">
+                🎉 VIP Status Active! 50p discount has been applied to all items in your tray.
+            </div>
+
+            <div id="cart-contents">
+                <p style="color: #6b7280; text-align: center; padding: 1.5rem 0;">Your tray is empty. Add some XXL cookies to begin.</p>
+            </div>
+
+            <div class="cart-totals">
+                <div class="total-row" style="color: var(--text-light); font-size: 0.95rem;">
+                    <span>Items Total:</span>
+                    <span id="subtotal-display">£0.00</span>
+                </div>
+                <div class="total-row" id="vip-cost-row" style="color: #4338ca; font-size: 0.95rem; display: none;">
+                    <span>VIP Pass Fee:</span>
+                    <span>£2.00</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Total Bill:</span>
+                    <span id="grand-total-display">£0.00</span>
+                </div>
+            </div>
+
+            <!-- Customer Details Form -->
+            <form class="checkout-form" id="order-form" onsubmit="handleOrderSubmission(event)">
+                <div class="form-group">
+                    <label for="cust-name">Your Full Name</label>
+                    <input type="text" id="cust-name" required placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="cust-class">Form / Classroom / Year Group</label>
+                    <input type="text" id="cust-class" required placeholder="e.g. Year 11 / Form 4B">
+                </div>
+                <button type="submit" class="btn-submit" id="submit-order-btn">Lock In Pre-Order</button>
+            </form>
+
+            <div class="notice-banner">
+                🤫 <strong>Strict Operations Protocol:</strong> Pre-Orders Only. Sai collects the cash at break time before the weekend. No cash, no bake! Delivery occurs at the designated quiet drop zone.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menuItems = [
+            { id: 'smartie', name: 'Signature Smartie', desc: 'Classic thick dough packed with 200g of internal crunchy Smarties and 50g pressed onto the crown.', normalPrice: 3.50, vipPrice: 3.00 },
+            { id: 'triple', name: 'Triple Chocolate', desc: 'Decadent cocoa base stuffed with milk, dark, and white chunks with extra melted disks applied post-bake.', normalPrice: 3.50, vipPrice: 3.00 },
+            { id: 'oreo', name: 'Cookies & Cream', desc: 'Crushed Oreo biscuit chunks and velvet white chocolate chips folded directly into our elite signature batter.', normalPrice: 3.50, vipPrice: 3.00 },
+            { id: 'biscoff', name: 'Biscoff Volcano', desc: 'Infused with sweet aromatic cinnamon and a molten core of frozen cookie spread wrapped in a massive 200g outer shell.', normalPrice: 3.50, vipPrice: 3.00 }
+        ];
+
+        let selectedVip = false;
+        let buyingVipPassNow = false;
+        let cartItems = {};
+        let isLockedOut = false;
+
+        // Dynamic Cutoff System: Orders freeze every Friday at 15:00 (3 PM)
+        function updateCountdown() {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Sun, 1 = Mon, ..., 5 = Fri, 6 = Sat
+            
+            // Target execution cut-off: Friday at 15:00 (3:00 PM)
+            let target = new Date();
+            target.setHours(15, 0, 0, 0);
+            
+            // Calculate days remaining until upcoming Friday cutoff
+            let daysToAdd = (5 - currentDay + 7) % 7;
+            
+            if (currentDay === 5 && now.getHours() >= 15) {
+                // If it is past 3 PM Friday, calculate deadline for the following Friday
+                daysToAdd = 7;
+            } else if (currentDay === 6 || (currentDay === 0)) {
+                // If weekend, point target to upcoming Friday
+                daysToAdd = (5 - currentDay + 7) % 7;
+            }
+            
+            target.setDate(now.getDate() + daysToAdd);
+            
+            const diff = target - now;
+            
+            // Lock UI controls if within baking freeze phase (Friday 3 PM through Sunday Midnight)
+            if ((currentDay === 7 && now.getHours() >= 15) || currentDay === 6 || currentDay === 0) {
+                isLockedOut = true;
+                document.getElementById('lockout-banner').innerHTML = "🛑 LOCKOUT PHASE ACTIVE: Kitchen is baking this week's stock. System frozen until Monday morning.";
+                document.getElementById('lockout-banner').style.backgroundColor = "#fee2e2";
+                document.getElementById('lockout-banner').style.borderColor = "#ef4444";
+                document.getElementById('submit-order-btn').disabled = true;
+                document.getElementById('submit-order-btn').innerText = "Ordering Frozen Until Monday";
+                const buyButtons = document.querySelectorAll('.btn-order');
+                buyButtons.forEach(btn => btn.disabled = true);
+                return;
+            }
+
+            isLockedOut = false;
+            const hours = Math.floor((diff / (1000 * 60 * 60)));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown-timer').innerText = `${hours}h ${mins}m ${secs}s`;
+        }
+
+        // Generate 6-digit dynamic lookup keys for Sai's delivery records
+        function generateReferenceCode() {
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Excluded lookalike chars
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = menuItems.map(item => {
+                const activePrice = selectedVip ? item.vipPrice : item.normalPrice;
+                return `
+                    <div class="card">
+                        <span class="badge-xxl">200g XXL</span>
+                        <div>
+                            <h3>${item.name}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <div>
+                            <div class="price-container">
+                                <span class="current-price" id="price-${item.id}">£${activePrice.toFixed(2)}</span>
+                                <span class="original-price">£${item.normalPrice.toFixed(2)}</span>
+                            </div>
+                            <button class="btn-order" ${isLockedOut ? 'disabled' : ''} onclick="addItemToCart('${item.id}')">Add to Tray</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Purchase new Pass
+        function purchaseVipPass() {
+            buyingVipPassNow = true;
+            selectedVip = true;
+            document.getElementById('existing-vip-chk').checked = false;
+            applyVipUIChanges(true);
+        }
+
+        // Toggle configuration if user already claims validation card
+        function toggleExistingVip(checkbox) {
+            if (checkbox.checked) {
+                buyingVipPassNow = false;
+                selectedVip = true;
+                applyVipUIChanges(false);
+            } else {
+                selectedVip = false;
+                removeVipUIChanges();
+            }
+        }
+
+        function applyVipUIChanges(showFeeRow) {
+            document.body.classList.add('vip-active');
+            const vipBtn = document.getElementById('buy-vip-btn');
+            
+            if (buyingVipPassNow) {
+                vipBtn.innerText = "VIP Pass Added";
+                vipBtn.disabled = true;
+            } else {
+                vipBtn.innerText = "Buy VIP Pass (+£2.00)";
+                vipBtn.disabled = false;
+            }
+            
+            document.getElementById('vip-status-msg').style.display = 'block';
+            document.getElementById('vip-cost-row').style.display = showFeeRow ? 'flex' : 'none';
+
+            menuItems.forEach(item => {
+                document.getElementById(`price-${item.id}`).innerText = `£${item.vipPrice.toFixed(2)}`;
+            });
+            calculateCartCalculations();
+        }
+
+        function removeVipUIChanges() {
+            buyingVipPassNow = false;
+            selectedVip = false;
+            document.body.classList.remove('vip-active');
+            
+            const vipBtn = document.getElementById('buy-vip-btn');
+            vipBtn.innerText = "Buy VIP Pass (+£2.00)";
+            vipBtn.disabled = false;
+            
+            document.getElementById('vip-status-msg').style.display = 'none';
+            document.getElementById('vip-cost-row').style.display = 'none';
+
+            menuItems.forEach(item => {
+                document.getElementById(`price-${item.id}`).innerText = `£${item.normalPrice.toFixed(2)}`;
+            });
+            calculateCartCalculations();
+        }
+
+        function addItemToCart(id) {
+            if (isLockedOut) return;
+            cartItems[id] = (cartItems[id] || 0) + 1;
+            calculateCartCalculations();
+        }
+
+        function incrementQuantity(id) {
+            if (isLockedOut) return;
+            cartItems[id]++;
+            calculateCartCalculations();
+        }
+
+        function decrementQuantity(id) {
+            if (isLockedOut) return;
+            if (cartItems[id] > 1) {
+                cartItems[id]--;
+            } else {
+                delete cartItems[id];
+            }
+            calculateCartCalculations();
+        }
+
+        function calculateCartCalculations() {
+            const contentsContainer = document.getElementById('cart-contents');
+            const keys = Object.keys(cartItems);
+
+            if (keys.length === 0) {
+                contentsContainer.innerHTML = `<p style="color: #6b7280; text-align: center; padding: 1.5rem 0;">Your tray is empty. Add some XXL cookies to begin.</p>`;
+                document.getElementById('subtotal-display').innerText = '£0.00';
+                document.getElementById('grand-total-display').innerText = buyingVipPassNow ? '£2.00' : '£0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            let listHtml = '';
+
+            keys.forEach(id => {
+                const product = menuItems.find(p => p.id === id);
+                const appliedPrice = selectedVip ? product.vipPrice : product.normalPrice;
+                const costLine = appliedPrice * cartItems[id];
+                subtotal += costLine;
+
+                listHtml += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${product.name}</h4>
+                            <span>£${appliedPrice.toFixed(2)} each</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="btn-qty" onclick="decrementQuantity('${id}')">-</button>
+                            <span style="font-weight: 600; min-width: 20px; text-align: center;">${cartItems[id]}</span>
+                            <button class="btn-qty" onclick="incrementQuantity('${id}')">+</button>
+                            <span style="font-weight: 600; min-width: 60px; text-align: right;">£${costLine.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            contentsContainer.innerHTML = listHtml;
+            document.getElementById('subtotal-display').innerText = `£${subtotal.toFixed(2)}`;
+            
+            const totalBill = subtotal + (buyingVipPassNow ? 2.00 : 0.00);
+            document.getElementById('grand-total-display').innerText = `£${totalBill.toFixed(2)}`;
+        }
+
+        function handleOrderSubmission(event) {
+            event.preventDefault();
+            if (isLockedOut) return;
+
+            const name = document.getElementById('cust-name').value;
+            const classroom = document.getElementById('cust-class').value;
+            const keys = Object.keys(cartItems);
+
+            if (keys.length === 0 && !buyingVipPassNow) {
+                alert('Your order tray is completely empty. Add cookies or a VIP Pass to checkout.');
+                return;
+            }
+
+            const refCode = generateReferenceCode();
+            let orderSummary = `--- COOKIE-LICIOUS ORDER PROFILE ---\n`;
+            orderSummary += `ORDER REF: ${refCode}\n`;
+            orderSummary += `Customer Name: ${name}\n`;
+            orderSummary += `Drop Location: ${classroom}\n`;
+            orderSummary += `Buying New VIP Pass: ${buyingVipPassNow ? 'YES (+£2.00)' : 'NO'}\n`;
+            orderSummary += `Using Old Gel Pen Pass: ${(selectedVip && !buyingVipPassNow) ? 'YES' : 'NO'}\n\n`;
+            orderSummary += `Items Logged:\n`;
+
+            keys.forEach(id => {
+                const product = menuItems.find(p => p.id === id);
+                orderSummary += `- ${product.name} (x${cartItems[id]})\n`;
+            });
+
+            const totalBillString = document.getElementById('grand-total-display').innerText;
+            orderSummary += `\nTOTAL CASH TO HAND OVER TO SAI: ${totalBillString}\n`;
+            orderSummary += `------------------------------------\n`;
+            orderSummary += `👉 INSTRUCTIONS FOR SAI:\n`;
+            orderSummary += `1. Verify student data against receipt code: ${refCode}\n`;
+            if (buyingVipPassNow) orderSummary += `2. Deliver 1x VIP card signed with official custom gel pen.\n`;
+            orderSummary += `3. Handover cookies wrapped upside down inside the quiet safe-zone.\n\n`;
+            orderSummary += `Alibi Alibi: If intercepted, say "It's just a birthday snack gift from my friend."`;
+
+            alert(`Pre-Order Successfully Registered!\n\nTake a screenshot of this receipt now to show Sai:\n\n${orderSummary}`);
+            
+            // Clean slate recovery reset
+            cartItems = {};
+            document.getElementById('order-form').reset();
+            removeVipUIChanges();
+            document.getElementById('existing-vip-chk').checked = false;
+            
+            renderMenu();
+            calculateCartCalculations();
+        }
+
+        // Live ticking schedule processing loops
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        renderMenu();
+    </script>
+</body>
+</html>
