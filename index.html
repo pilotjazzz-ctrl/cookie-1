@@ -492,10 +492,10 @@
 
     <script>
         const menuItems = [
-            { id: 'smartie', name: 'Signature Smartie', desc: 'Classic thick dough packed with 200g of internal crunchy Smarties and 50g pressed onto the crown.', normalPrice: 3.50, vipPrice: 3.00 },
-            { id: 'triple', name: 'Triple Chocolate', desc: 'Decadent cocoa base stuffed with milk, dark, and white chunks with extra melted disks applied post-bake.', normalPrice: 3.50, vipPrice: 3.00 },
-            { id: 'oreo', name: 'Cookies & Cream', desc: 'Crushed Oreo biscuit chunks and velvet white chocolate chips folded directly into our elite signature batter.', normalPrice: 3.50, vipPrice: 3.00 },
-            { id: 'biscoff', name: 'Biscoff Volcano', desc: 'Infused with sweet aromatic cinnamon and a molten core of frozen cookie spread wrapped in a massive 200g outer shell.', normalPrice: 3.50, vipPrice: 3.00 }
+            { id: 'smartie', name: 'Signature Smartie', desc: 'Classic thick dough packed with 200g of internal crunchy Smarties and 50g pressed onto the crown.', normalPrice: 2.50, vipPrice: 2.00 },
+            { id: 'triple', name: 'Triple Chocolate', desc: 'Decadent cocoa base stuffed with milk, dark, and white chunks with extra melted disks applied post-bake.', normalPrice: 2.50, vipPrice: 2.00 },
+            { id: 'oreo', name: 'Cookies & Cream', desc: 'Crushed Oreo biscuit chunks and velvet white chocolate chips folded directly into our elite signature batter.', normalPrice: 2.50, vipPrice: 2.00 },
+            { id: 'biscoff', name: 'Biscoff Volcano', desc: 'Infused with sweet aromatic cinnamon and a molten core of frozen cookie spread wrapped in a massive 200g outer shell.', normalPrice: 2.50, vipPrice: 2.00 }
         ];
 
         let selectedVip = false;
@@ -510,7 +510,7 @@
            
             // Target execution cut-off: Friday at 15:00 (3:00 PM)
             let target = new Date();
-            target.setHours(1500, 0, 0, 0);
+            target.setHours(15, 0, 0, 0);
            
             // Calculate days remaining until upcoming Friday cutoff
             let daysToAdd = (5 - currentDay + 7) % 7;
