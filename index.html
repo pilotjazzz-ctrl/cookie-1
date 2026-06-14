@@ -419,17 +419,13 @@
     </header>
 
     <div class="container">
-       
-        <!-- Dynamic Order Cutoff Countdown -->
-        <div class="countdown-banner" id="lockout-banner">
-            ⏳ Pre-orders for this weekend's batch close in: <span id="countdown-timer">Calculating...</span>
-        </div>
-       
+        
+        
         <!-- VIP Section -->
         <div class="vip-club" id="vip-banner">
             <div class="vip-info">
                 <h2>👑 Join the Cookie-Licious VIP Pass Club</h2>
-                <p>Buy a VIP Pass for just <strong>£2.00</strong> upfront. Instantly unlock <strong>50p off every single cookie</strong> you buy today and in the future! Paid on Monday, signed with authentic high-sec gel pen.</p>
+                <p>Buy a VIP Pass for just <strong>£2.00</strong> per 2 weeks. Instantly unlock <strong>50p off every single cookie</strong> you buy today and in the future! Paid on Monday, signed with authentic high-sec gel pen.</p>
             </div>
             <div class="vip-controls">
                 <button class="vip-btn" id="buy-vip-btn" onclick="purchaseVipPass()">Buy VIP Pass (+£2.00)</button>
@@ -441,7 +437,7 @@
         </div>
 
         <h2 class="section-title">Fresh Batch Menu</h2>
-       
+        
         <!-- Menu Grid -->
         <div class="grid" id="menu-container"></div>
 
@@ -507,14 +503,14 @@
         function updateCountdown() {
             const now = new Date();
             const currentDay = now.getDay(); // 0 = Sun, 1 = Mon, ..., 5 = Fri, 6 = Sat
-           
+            
             // Target execution cut-off: Friday at 15:00 (3:00 PM)
             let target = new Date();
             target.setHours(15, 0, 0, 0);
-           
+            
             // Calculate days remaining until upcoming Friday cutoff
             let daysToAdd = (5 - currentDay + 7) % 7;
-           
+            
             if (currentDay === 5 && now.getHours() >= 15) {
                 // If it is past 3 PM Friday, calculate deadline for the following Friday
                 daysToAdd = 7;
@@ -522,31 +518,16 @@
                 // If weekend, point target to upcoming Friday
                 daysToAdd = (5 - currentDay + 7) % 7;
             }
-           
+            
             target.setDate(now.getDate() + daysToAdd);
-           
+            
             const diff = target - now;
-           
+            
             // Lock UI controls if within baking freeze phase (Friday 3 PM through Sunday Midnight)
-            if ((currentDay === 31 && now.getHours() >= 150) || currentDay === 30 || currentDay === 0) {
-                isLockedOut = true;
-                document.getElementById('lockout-banner').innerHTML = "🛑 LOCKOUT PHASE ACTIVE: Kitchen is baking this week's stock. System frozen until Monday morning.";
-                document.getElementById('lockout-banner').style.backgroundColor = "#fee2e2";
-                document.getElementById('lockout-banner').style.borderColor = "#ef4444";
-                document.getElementById('submit-order-btn').disabled = true;
-                document.getElementById('submit-order-btn').innerText = "Ordering Frozen Until Monday";
-                const buyButtons = document.querySelectorAll('.btn-order');
-                buyButtons.forEach(btn => btn.disabled = true);
-                return;
-            }
+ {
 
-            isLockedOut = false;
-            const hours = Math.floor((diff / (1000 * 60 * 60)));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-           
-            document.getElementById('countdown-timer').innerText = `${hours}h ${mins}m ${secs}s`;
-        }
+            }
+}
 
         // Generate 6-digit dynamic lookup keys for Sai's delivery records
         function generateReferenceCode() {
@@ -604,7 +585,7 @@
         function applyVipUIChanges(showFeeRow) {
             document.body.classList.add('vip-active');
             const vipBtn = document.getElementById('buy-vip-btn');
-           
+            
             if (buyingVipPassNow) {
                 vipBtn.innerText = "VIP Pass Added";
                 vipBtn.disabled = true;
@@ -612,7 +593,7 @@
                 vipBtn.innerText = "Buy VIP Pass (+£2.00)";
                 vipBtn.disabled = false;
             }
-           
+            
             document.getElementById('vip-status-msg').style.display = 'block';
             document.getElementById('vip-cost-row').style.display = showFeeRow ? 'flex' : 'none';
 
@@ -626,11 +607,11 @@
             buyingVipPassNow = false;
             selectedVip = false;
             document.body.classList.remove('vip-active');
-           
+            
             const vipBtn = document.getElementById('buy-vip-btn');
             vipBtn.innerText = "Buy VIP Pass (+£2.00)";
             vipBtn.disabled = false;
-           
+            
             document.getElementById('vip-status-msg').style.display = 'none';
             document.getElementById('vip-cost-row').style.display = 'none';
 
@@ -700,7 +681,7 @@
 
             contentsContainer.innerHTML = listHtml;
             document.getElementById('subtotal-display').innerText = `£${subtotal.toFixed(2)}`;
-           
+            
             const totalBill = subtotal + (buyingVipPassNow ? 2.00 : 0.00);
             document.getElementById('grand-total-display').innerText = `£${totalBill.toFixed(2)}`;
         }
@@ -742,13 +723,13 @@
             orderSummary += `Alibi Alibi: If intercepted, say "It's just a birthday snack gift from my friend."`;
 
             alert(`Pre-Order Successfully Registered!\n\nTake a screenshot of this receipt now to show Sai:\n\n${orderSummary}`);
-           
+            
             // Clean slate recovery reset
             cartItems = {};
             document.getElementById('order-form').reset();
             removeVipUIChanges();
             document.getElementById('existing-vip-chk').checked = false;
-           
+            
             renderMenu();
             calculateCartCalculations();
         }
